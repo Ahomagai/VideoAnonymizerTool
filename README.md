@@ -1,4 +1,4 @@
-This is a simple UI wrapper that uses the deface package in python to anonymize videos. 
+This is a simple UI wrapper that uses the deface package in python to anonymize videos automatically, with relatively low user input. 
 
 Required packages: https://pypi.org/project/deface/
 
