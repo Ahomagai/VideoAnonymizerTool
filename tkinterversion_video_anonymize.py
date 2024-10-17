@@ -2,19 +2,23 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 import subprocess
 import os
-from ttkthemes import ThemedTk
+#from ttkthemes import ThemedTk
 import threading
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
 
 # deface installed via: pip install deface
 
-root = ThemedTk()
+root = ttk.Window(themename="flatly")
 root.title("Video Anonymizer Tool")
-root.tk.call('tk', 'scaling', 1.5)
-root.geometry('900x500')
+root.tk.call('tk', 'scaling', 3)
+root.geometry('1400x800')
 
 # Create an instance of ttk Style
-style = ttk.Style(root)
-style.theme_use('breeze')
+# style = ttk.Style(root)
+# style.theme_use('yaru')
+
+
 
 # Adding a label
 label = ttk.Label(root, text="Select your video file and output directory to anonymize your video:")
@@ -43,15 +47,21 @@ def outputdir():
     outputlabel.pack()
     return outputpath
 
+# Add a space between the last item and the next button
+ttk.Label(root, text="").pack(pady=5)
+
 OutputButton = ttk.Button(root, text="Select your output directory", command=outputdir)
 OutputButton.pack()
+
+# Add a space between the last item and the next button
+ttk.Label(root, text="").pack(pady=5)
 
 # Create a slider for the threshold
 threshold_label = ttk.Label(root, text="Adjust threshold:")
 threshold_label.pack()
 
 threshold = tk.DoubleVar()  # Variable to store the threshold value
-threshold_slider = ttk.Scale(root, from_=0.0, to=0.99, orient="horizontal", variable=threshold)
+threshold_slider = ttk.Scale(root, from_=0.01, to=0.99, orient="horizontal", variable=threshold)
 threshold_slider.set(0.2)  # Set a default value for the threshold
 threshold_slider.pack()
 
@@ -72,6 +82,10 @@ def update_threshold_label(event):
 # Bind the slider to update the label when the value changes
 threshold_slider.bind("<Motion>", update_threshold_label)
 
+# Add a space between the last item and the next button
+ttk.Label(root, text="").pack(pady=20) # padded distance between threshold slider and run button
+
+
 # Button to run deface on all files
 RunMultipleDeface = ttk.Button(root, text='Run deface on all files', command=lambda: threading.Thread(target=run_multiple_deface).start())
 RunMultipleDeface.pack()
@@ -82,7 +96,7 @@ current_file_label.pack(pady=10, side="bottom")
 
 # Create a progress bar
 progress = ttk.Progressbar(root, orient="horizontal", length=300, mode="determinate")
-progress.pack(pady=20, side="bottom")
+progress.pack(pady=20) # removed side = "bottom" to not anchor it to the bottom, makes it look like a scroll bar
 
 def run_multiple_deface():
     total_files = len(filenames)
