@@ -2,17 +2,15 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 import subprocess
 import os
-#from ttkthemes import ThemedTk
+
 import threading
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
-# deface installed via: pip install deface
-
 root = ttk.Window(themename="flatly")
 root.title("Video Anonymizer Tool")
 root.tk.call('tk', 'scaling', 3)
-root.geometry('1400x800')
+root.geometry('1600x1400')
 
 # Create an instance of ttk Style
 # style = ttk.Style(root)
@@ -42,22 +40,22 @@ FileSelectors.pack()
 def outputdir():
     global outputpath
     outputpath = filedialog.askdirectory()
-    ttk.Label(root, text="Your output path is:").pack()
+    ttk.Label(root, text="\n Your output path is:").pack()
     outputlabel = ttk.Label(root, text=outputpath)
     outputlabel.pack()
     return outputpath
 
 # Add a space between the last item and the next button
-ttk.Label(root, text="").pack(pady=5)
+ttk.Label(root, text="").pack(pady=1)
 
 OutputButton = ttk.Button(root, text="Select your output directory", command=outputdir)
 OutputButton.pack()
 
 # Add a space between the last item and the next button
-ttk.Label(root, text="").pack(pady=5)
+ttk.Label(root, text="").pack(pady=1)
 
 # Create a slider for the threshold
-threshold_label = ttk.Label(root, text="Adjust threshold:")
+threshold_label = ttk.Label(root, text="Adjust detection threshold:")
 threshold_label.pack()
 
 threshold = tk.DoubleVar()  # Variable to store the threshold value
@@ -69,9 +67,8 @@ threshold_slider.pack()
 threshold_value_label = ttk.Label(root, text=f"Current threshold: {threshold.get():.2f}")
 threshold_value_label.pack()
 
-threshold_warning = tk.Label(root, text="Lower threshold values results in 'stronger' face detection, may result in more false positives (i.e. blurred hands)." + 
-                             "\n Default value for threshold is 0.2." + 
-                             "\n Adjust this value as necessary")
+threshold_warning = tk.Label(root, text="Lower threshold values results in stronger face detection, may result in more false positives (i.e. blurred hands)." + 
+                             "\n Default value for threshold is 0.2, adjust as necessary")
 threshold_warning.pack()
 
 # Function to update the threshold value label when slider is moved :: maybe pivot to input field instead of slider
@@ -115,7 +112,7 @@ def run_multiple_deface():
         stdout, stderr = process.communicate()
 
         if process.returncode == 0:
-            ttk.Label(root, text=f"Successfully processed: {file}").pack()
+            ttk.Label(root, text=f"\n Successfully processed:{file}").pack()
         else:
             ttk.Label(root, text=f"Error processing: {file}").pack()
             ttk.Label(root, text=stderr.decode("utf-8")).pack()
