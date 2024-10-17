@@ -25,3 +25,6 @@ Select your videos of interest, adjust threshold as necessary (lower threshold =
 Make sure to double check your videos as they output to ensure proper detection of faces. 
 
 Once you hit the 'RUN' button, it should show the current file that it is processing, and the update bar progresses as each video is completed. 
+
+Here is what the program looks like:
+![alt text](https://github.com/Ahomagai/VideoAnonymizerTool/blob/main/UserInterface.png "Video Anonymizer Tool")
