@@ -9,7 +9,7 @@ from ttkbootstrap.constants import *
 
 root = ttk.Window(themename="flatly")
 root.title("Video Anonymizer Tool")
-root.tk.call('tk', 'scaling', 3)
+root.tk.call('tk', 'scaling', 2)
 root.geometry('1600x1400')
 
 # Create an instance of ttk Style
