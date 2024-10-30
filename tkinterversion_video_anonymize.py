@@ -1,21 +1,22 @@
 import tkinter as tk
 from tkinter import ttk, filedialog
+
+from ttkthemes import ThemedTk
+
 import subprocess
 import os
 import threading
-import ttkbootstrap as ttk
-from ttkbootstrap.constants import *
 
 # Initialize root window
-root = ttk.Window(themename="flatly")
+root = ThemedTk(theme="arc")
 root.title("Video Anonymizer Tool")
 root.tk.call('tk', 'scaling', 2)
-root.geometry('600x1000')
+root.geometry('800x1000')
 
 # Set up the main frame and scrollbar
 canvas = tk.Canvas(root)
-scrollbar = ttk.Scrollbar(root, orient="vertical", command=canvas.yview)
-scrollable_frame = ttk.Frame(canvas)
+scrollbar = tk.Scrollbar(root, orient="vertical", command=canvas.yview)
+scrollable_frame = tk.Frame(canvas)
 
 # Configure the scrollbar
 scrollable_frame.bind(
