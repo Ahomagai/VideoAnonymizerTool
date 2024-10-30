@@ -8,7 +8,7 @@ import os
 import threading
 
 # Initialize root window
-root = ThemedTk(theme="arc")
+root = tk.Tk()
 root.title("Video Anonymizer Tool")
 root.tk.call('tk', 'scaling', 2)
 root.geometry('800x1000')
