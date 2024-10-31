@@ -11,7 +11,16 @@ Install: -m pip install ttkbootstrap
 Packages used:
 deface, tkinter, subprocess, threading, ttkbootstrap (for theme and UI elements)
 
+Installation video for python, deface, and ttkbootstrap:
+Coming soon
+
 
 Important to know:
 deface runs from the command line, meaning running it as a function at the script level does not work. We need to run it through the terminal or shell level.
 This UI tool helps give the input and output arguments for the deface function which is passed into the command line.
+
+
+
+USAGE: 
+
+Download the file as a .zip and extract to any directory. Run the tkinterversion_video_anonymize.exe file to use the program. Again, this requires the ttkbootstrap and deface packages to be installed prior.
