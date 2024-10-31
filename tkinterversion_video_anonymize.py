@@ -111,7 +111,7 @@ def run_multiple_deface():
         current_threshold = threshold.get()
         command = ["deface", file, "-t", str(current_threshold), "-o", outputfilename]
 
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
         stdout, stderr = process.communicate()
 
         if process.returncode == 0:
