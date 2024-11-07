@@ -6,6 +6,9 @@ import threading
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
+## TODO: Upload revised os.system command, replacing the old subprocess.Popen command, which integrates deface's 
+##       own processing UI 
+
 # Root window 
 root = ttk.Window(themename="flatly")
 root.title("Video Anonymizer Tool")
@@ -111,14 +114,23 @@ def run_multiple_deface():
         current_threshold = threshold.get()
         command = ["deface", file, "-t", str(current_threshold), "-o", outputfilename]
 
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-        stdout, stderr = process.communicate()
+        command = " ".join(command)
 
-        if process.returncode == 0:
+        #process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        #stdout, stderr = process.communicate()
+        process = os.system(command)
+
+        if process == 0:
             ttk.Label(content_frame, text=f"Successfully processed: {file}", style = 'success.Inverse.TLabel').pack()
         else:
             ttk.Label(content_frame, text=f"Error processing: {file}").pack()
-            ttk.Label(content_frame, text=stderr.decode("utf-8")).pack()
+
+        
+        # if process.returncode == 0:
+        #     ttk.Label(content_frame, text=f"Successfully processed: {file}", style = 'success.Inverse.TLabel').pack()
+        # else:
+        #     ttk.Label(content_frame, text=f"Error processing: {file}").pack()
+        #     ttk.Label(content_frame, text=stderr.decode("utf-8")).pack()
 
         progress['value'] = i + 1
         root.update_idletasks()
