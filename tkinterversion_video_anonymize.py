@@ -5,9 +5,12 @@ import os
 import threading
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
+from tkinter import *
 
-## TODO: Upload revised os.system command, replacing the old subprocess.Popen command, which integrates deface's 
-##       own processing UI 
+## TODO: Implement a mean 'score' for id faces, makes it easier to know which video files to analyze for 
+# accuracy & precision of deface protocol  -- TBD 
+
+## TODO: Give a test folder option instead, deface can handle full folders and nested folder paths, useful!! 
 
 # Root window 
 root = ttk.Window(themename="flatly")
@@ -112,7 +115,7 @@ def run_multiple_deface():
 
         outputfilename = os.path.join(outputpath, os.path.basename(file).replace('.mp4', '_blurred.mp4'))
         current_threshold = threshold.get()
-        command = ["deface", file, "-t", str(current_threshold), "-o", outputfilename]
+        command = ["deface", file, "-t", str(current_threshold), "--keep-audio", "-o", outputfilename, ]
 
         command = " ".join(command)
 
