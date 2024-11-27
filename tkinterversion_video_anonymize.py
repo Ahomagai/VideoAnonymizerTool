@@ -6,11 +6,12 @@ import threading
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from tkinter import *
+import json
 
-## TODO: Implement a mean 'score' for id faces, makes it easier to know which video files to analyze for 
-# accuracy & precision of deface protocol  -- TBD 
+## TODO: Implement a mean 'score' for id faces, makes it easier to know which video files to analyze again for 
+# accuracy & precision of deface protocol
 
-## TODO: Give a test folder option instead, deface can handle full folders and nested folder paths, useful!! 
+## TODO: Give a test folder option instead, deface can handle full folders and nested folder paths
 
 # Root window 
 root = ttk.Window(themename="flatly")
@@ -82,6 +83,7 @@ threshold_value_label.pack()
 threshold_warning = tk.Label(content_frame, text="Lower threshold values result in stronger face detection \n may result in more false positives (i.e., blurred hands).\n Default value for threshold is 0.2, adjust as necessary")
 threshold_warning.pack()
 
+
 # Update threshold label when slider is moved
 def update_threshold_label(event):
     threshold_value_label.config(text=f"Current threshold: {threshold.get():.2f}")
@@ -113,14 +115,35 @@ def run_multiple_deface():
         current_file_label.config(text=f"Processing: {os.path.basename(file)}")
         root.update_idletasks()
 
-        outputfilename = os.path.join(outputpath, os.path.basename(file).replace('.mp4', '_blurred.mp4'))
+        outputfilename = os.path.join(outputpath, os.path.basename(file).replace('.MP4', '_blur.mp4'))
         current_threshold = threshold.get()
-        command = ["deface", file, "-t", str(current_threshold), "--keep-audio", "-o", outputfilename, ]
 
+        
+
+        # Assuming 30 fps for all videos
+        fps_value = 30
+        ffmpeg_config = '"{\\"fps\\": ' + str(fps_value) + '}"' # Properly formatted JSON string for ffmpeg_config line 
+
+        command = [
+            "deface",
+            file,
+            "-t",
+            str(current_threshold),
+            "--ffmpeg-config",
+            ffmpeg_config,  #
+            "--keep-audio",
+            "-o",
+            outputfilename
+        ]
         command = " ".join(command)
+
+        # needed command structure as verbatim: deface --ffmpeg-config "{\"fps\": 20}" --keep-audio -o outputfilename
+
+        ttk.Label(content_frame, text=f"Processing: {command}", style="").pack()
 
         #process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
         #stdout, stderr = process.communicate()
+        
         process = os.system(command)
 
         if process == 0:
