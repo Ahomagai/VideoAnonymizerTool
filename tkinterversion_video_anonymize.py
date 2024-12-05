@@ -130,8 +130,7 @@ def run_multiple_deface():
             "-t",
             str(current_threshold),
             "--ffmpeg-config",
-            ffmpeg_config,  #
-            "--keep-audio",
+            ffmpeg_config,
             "-o",
             outputfilename
         ]
