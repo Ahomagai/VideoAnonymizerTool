@@ -16,7 +16,7 @@ import json
 # Root window 
 root = ttk.Window(themename="flatly")
 root.title("Video Anonymizer Tool")
-root.geometry("800x900")
+root.geometry("1300x900")
 
 # Create the canvas
 canvas = Canvas(root)
@@ -65,14 +65,16 @@ ttk.Label(content_frame, text="").pack(pady=1)
 OutputButton = ttk.Button(content_frame, text="Select your output directory", style='', command=outputdir)
 OutputButton.pack()
 
-ttk.Label(content_frame, text="").pack(pady=1)
+ttk.Label(content_frame, text="").pack(pady=1) # just for space 
 
+
+######## Label for the threshold slider and slider itself #####################
 # Create a slider for the threshold
 threshold_label = ttk.Label(content_frame, text="Adjust detection threshold:")
 threshold_label.pack()
 
 threshold = tk.DoubleVar()  # Variable to store the threshold value
-threshold_slider = ttk.Scale(content_frame, from_=0.01, to=0.99, orient="horizontal", variable=threshold)
+threshold_slider = ttk.Scale(content_frame, from_=0.01, to=0.99, length=500,orient="horizontal", variable=threshold)
 threshold_slider.set(0.2)  # Set a default value for the threshold
 threshold_slider.pack()
 
@@ -90,8 +92,36 @@ def update_threshold_label(event):
 
 threshold_slider.bind("<Motion>", update_threshold_label)
 
-ttk.Label(content_frame, text="").pack(pady=20)
+ttk.Label(content_frame, text="").pack(pady=10)
 
+
+################## Mask scale slider #############################
+### Mask scale slider, defaults to 1.3 
+mask_slider_label = ttk.Label(content_frame, text="Adjust mask scale:")
+mask_slider_label.pack()
+
+mask_scale = tk.DoubleVar()  # Variable to store the mask scale value
+mask_slider = ttk.Scale(content_frame, from_=0.0, to=2.0, length=500, orient="horizontal", variable=mask_scale)
+mask_slider.set(1.3)  # Set a default value for the mask scale
+mask_slider.pack()
+
+# Label to display the current value of the mask scale slider
+mask_scale_value_label = ttk.Label(content_frame, text=f"Current mask scale: {mask_scale.get():.2f}")
+mask_scale_value_label.pack()
+
+mask_scale_warning = tk.Label(content_frame, text="Mask scale adjusts how much of the face is covered by the blur masking. \n Default value for mask scale is 1.3, larger value = more of the face blurred.")
+mask_scale_warning.pack()
+
+# Update mask scale value label when slider is moved
+def update_mask_scale_label(event):
+    mask_scale_value_label.config(text=f"Current mask scale: {mask_scale.get():.2f}")
+
+mask_slider.bind("<Motion>", update_mask_scale_label)
+
+
+ttk.Label(content_frame, text="").pack(pady=10)
+
+### 
 # Button to run deface on all files
 RunMultipleDeface = ttk.Button(content_frame, text='Run deface on all files', style='success.TButton' , command=lambda: threading.Thread(target=run_multiple_deface).start())
 RunMultipleDeface.pack()
@@ -117,6 +147,7 @@ def run_multiple_deface():
 
         outputfilename = os.path.join(outputpath, os.path.basename(file).replace('.MP4', '_blur.mp4'))
         current_threshold = threshold.get()
+        mask_scale_value = mask_scale.get()
 
         
 
@@ -131,6 +162,8 @@ def run_multiple_deface():
             str(current_threshold),
             "--ffmpeg-config",
             ffmpeg_config,
+            "--mask-scale",
+            str(mask_scale_value),
             "-o",
             outputfilename
         ]
@@ -138,24 +171,15 @@ def run_multiple_deface():
 
         # needed command structure as verbatim: deface --ffmpeg-config "{\"fps\": 20}" --keep-audio -o outputfilename
 
-        ttk.Label(content_frame, text=f"Processing: {command}", style="").pack()
+        #ttk.Label(content_frame, text=f"Processing: {command}", style="").pack()
+        print(command) # send the command onto the console for debugging purposes instead of the UI, reduces clutter 
 
-        #process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-        #stdout, stderr = process.communicate()
-        
         process = os.system(command)
 
         if process == 0:
             ttk.Label(content_frame, text=f"Successfully processed: {file}", style = 'success.Inverse.TLabel').pack()
         else:
             ttk.Label(content_frame, text=f"Error processing: {file}").pack()
-
-        
-        # if process.returncode == 0:
-        #     ttk.Label(content_frame, text=f"Successfully processed: {file}", style = 'success.Inverse.TLabel').pack()
-        # else:
-        #     ttk.Label(content_frame, text=f"Error processing: {file}").pack()
-        #     ttk.Label(content_frame, text=stderr.decode("utf-8")).pack()
 
         progress['value'] = i + 1
         root.update_idletasks()
