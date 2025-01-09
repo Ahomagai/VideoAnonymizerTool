@@ -109,7 +109,7 @@ mask_slider.pack()
 mask_scale_value_label = ttk.Label(content_frame, text=f"Current mask scale: {mask_scale.get():.2f}")
 mask_scale_value_label.pack()
 
-mask_scale_warning = tk.Label(content_frame, text="Mask scale adjusts how much of the face is covered by the blur masking. \n Default value for mask scale is 1.3, larger value = more of the face blurred.")
+mask_scale_warning = tk.Label(content_frame, text="\n Mask scale adjusts how much of the face is covered by the blur masking. \n Default value for mask scale is 1.3, larger value = more of the face blurred.")
 mask_scale_warning.pack()
 
 # Update mask scale value label when slider is moved
@@ -145,7 +145,7 @@ def run_multiple_deface():
         current_file_label.config(text=f"Processing: {os.path.basename(file)}")
         root.update_idletasks()
 
-        outputfilename = os.path.join(outputpath, os.path.basename(file).replace('.MP4', '_blur.mp4'))
+        outputfilename = os.path.join(outputpath, os.path.basename(file).replace('_unblur', '_blur'))
         current_threshold = threshold.get()
         mask_scale_value = mask_scale.get()
 
