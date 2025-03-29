@@ -1,5 +1,5 @@
 ## New UI Version of VidAnon Tool
-Instead of using the .exe, you can instead install the PyQt6 package in Python using ```pip install PyQt6``` from your terminal
+Instead of using the .exe, you can instead install the PyQt6 package in Python using ```pip install PyQt6``` from your terminal. <br>
 Then you only have to run the **Video_Anonymize_pyqtversion_1.1** file from the .zip to get started with the program.
 
 
@@ -8,7 +8,7 @@ Required packages: **Deface** (https://pypi.org/project/deface/), **PyQt6** (htt
 
 Currently working on an exe and deployment version of this similar to the TKinter version but for now running the .py file should work
 
-
+![Screenshot of new UI.](https://github.com/Ahomagai/VideoAnonymizerTool/blob/main/UserInterface.png)
 
 
 ## Older method (still works):
