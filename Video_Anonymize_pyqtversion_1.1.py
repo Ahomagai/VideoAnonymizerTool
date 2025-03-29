@@ -81,7 +81,7 @@ class VideoAnonymizer(QWidget):
         self.threshold_slider.setMaximum(99)
         self.threshold_slider.setValue(20)
         self.threshold_slider.valueChanged.connect(self.update_threshold_label) #func name 
-        layout.addWidget(QLabel("Adjust Detection Threshold: "))
+        layout.addWidget(QLabel("Adjust Detection Threshold (Default = 0.20)\nHigher values for stronger detection, may result in false positives"))
         layout.addWidget(self.threshold_slider)
 
         self.threshold_label = QLabel("Current threshold: 0.20")
@@ -92,7 +92,7 @@ class VideoAnonymizer(QWidget):
         self.mask_slider.setMaximum(200)
         self.mask_slider.setValue(130)
         self.mask_slider.valueChanged.connect(self.update_mask_label) # func name 
-        layout.addWidget(QLabel("Adjust Mask Scale:"))
+        layout.addWidget(QLabel("Adjust Mask Scale (Default = 1.30)\nHigher vaules for bigger mask size onto faces"))
         layout.addWidget(self.mask_slider)
         
         self.mask_label = QLabel("Current Mask Scale: 1.30")
