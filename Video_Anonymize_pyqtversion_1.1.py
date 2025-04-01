@@ -10,12 +10,12 @@ from PyQt6.QtCore import Qt, QThread, pyqtSignal
 
 class DefaceRun(QThread):
     progress_signal = pyqtSignal(int, str)
-    completion_signal = pyqtSignal()
+    completion_signal = pyqtSignal(int)
 
-    def __init__(self, filenames, outputpath, threshold, mask_scale):
+    def __init__(self, filenames, outpath, threshold, mask_scale):
         super().__init__()
         self.filenames = filenames
-        self.outputpath = outputpath 
+        self.outpath = outpath 
         self.threshold = threshold
         self.mask_scale = mask_scale
 
@@ -24,7 +24,11 @@ class DefaceRun(QThread):
         total_files = len(self.filenames)
         for i, file in enumerate(self.filenames):
             filename = os.path.basename(file)
-            outputfilename = os.path.join(self.outputpath, filename.replace('_unblur','blur'))
+            if '_unblur' not in filename:
+                outputfilename = os.path.join(self.outpath, filename.replace('.mp4','_blur.mp4'))
+            else:
+                outputfilename = os.path.join(self.outpath, filename.replace('_unblur','blur'))
+            
 
             fps_value = 30
 
@@ -32,7 +36,7 @@ class DefaceRun(QThread):
 
             self.progress_signal.emit(int(((i + 1) / total_files) * 100), status)
             # following commands need to be verbatim onto console for both restricting framerate and
-            # running deface 
+            # running deface ``
 
             ffmpeg_config = f'"{{\\"fps\\": {fps_value}}}"'
             command = f"deface {file} -t {self.threshold} --ffmpeg-config {ffmpeg_config} --mask-scale {self.mask_scale} -o {outputfilename}"
@@ -44,7 +48,7 @@ class DefaceRun(QThread):
             
             
         
-        self.completion_signal.emit()
+        self.completion_signal.emit(int((i+ 1)/total_files) * 100)
 
 class VideoAnonymizer(QWidget):
     def __init__(self):
@@ -111,7 +115,7 @@ class VideoAnonymizer(QWidget):
 
         self.setLayout(layout)
         self.filenames = []
-        self.outputpath = ""
+        self.outpath = ""
 
 
     def select_files(self):
@@ -121,7 +125,7 @@ class VideoAnonymizer(QWidget):
         #     self.filelabel.setText("Selected Files:\n" + "\n".join(self.filenames))
     
     def select_output_dir(self):
-        self.outpath = QFileDialog.getExistingDirectory(self,"Select Output Directory")
+        self.outpath = QFileDialog.getExistingDirectory(self,"Select Output Directory") + "/"
         self.outputlabel.setText("Your output path is: "+ self.outpath)
         
     def update_threshold_label(self):
@@ -139,7 +143,7 @@ class VideoAnonymizer(QWidget):
         
 
         self.worker = DefaceRun(
-            self.filenames, self.outputpath,
+            self.filenames, self.outpath,
             self.threshold_slider.value() / 100,
             self.mask_slider.value() / 100
         )
@@ -154,6 +158,7 @@ class VideoAnonymizer(QWidget):
     
     def processing_complete(self):
         self.progress_label.setText("All files processed!")
+        self.progress_bar.setValue(100)
 
 
 if __name__ == "__main__":
