@@ -5,6 +5,8 @@ from PyQt6.QtWidgets import (
     QFileDialog, QSlider, QProgressBar
 )
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
+import shlex
+import subprocess
 
 # packages used: deface, PyQt6 (and various core functions)
 
@@ -19,7 +21,8 @@ class DefaceRun(QThread):
         self.threshold = threshold
         self.mask_scale = mask_scale
 
-    
+
+
     def run(self):
         total_files = len(self.filenames)
         for i, file in enumerate(self.filenames):
@@ -28,27 +31,33 @@ class DefaceRun(QThread):
                 outputfilename = os.path.join(self.outpath, filename.replace('.mp4','_blur.mp4'))
             else:
                 outputfilename = os.path.join(self.outpath, filename.replace('_unblur','blur'))
-            
-
+    
             fps_value = 30
-
             status = filename
-
             self.progress_signal.emit(int(((i + 1) / total_files) * 100), status)
-            # following commands need to be verbatim onto console for both restricting framerate and
-            # running deface ``
-
-            ffmpeg_config = f'"{{\\"fps\\": {fps_value}}}"'
-            command = f"deface {file} -t {self.threshold} --ffmpeg-config {ffmpeg_config} --mask-scale {self.mask_scale} -o {outputfilename}"
-            
-            process = os.system(command) # send to console 
-            
-            if process != 0:
+    
+            ffmpeg_config = f'{{"fps": {fps_value}}}'
+    
+            # Use list of args instead of shell string
+            command = [
+                "deface",
+                file,
+                "-t", str(self.threshold),
+                "--ffmpeg-config", ffmpeg_config,
+                "--mask-scale", str(self.mask_scale),
+                "-o", outputfilename
+            ]
+    
+            try:
+                result = subprocess.run(command, check=True)
+            except subprocess.CalledProcessError:
                 status = f"Error processing: {file}"
-            
-            
-        
-        self.completion_signal.emit(int((i+ 1)/total_files) * 100)
+    
+        self.completion_signal.emit(int((i+1)/total_files) * 100)
+
+
+    
+    
 
 class VideoAnonymizer(QWidget):
     def __init__(self):
