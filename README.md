@@ -1,5 +1,7 @@
 ## New UI Version of VidAnon Tool
 Instead of using the .exe, you can instead install the PyQt6 package in Python using ```pip install PyQt6``` from your terminal. <br>
+And then install the deface package using ```-m pip install deface``` (this can be skipped if you already have deface installed).
+
 Then you only have to run the **Video_Anonymize_pyqtversion_1.1** file from the .zip to get started with the program.
 
 
@@ -11,21 +13,11 @@ Currently working on an exe and deployment version of this similar to the TKinte
 ![Screenshot of new UI.](https://github.com/Ahomagai/VideoAnonymizerTool/blob/main/UserInterface.png)
 
 
-## Older method (still works):
-This is a simple UI wrapper that uses the deface package in python to anonymize videos automatically. 
+## Older method
+Has been removed, please use the Video_Anonymize_pyqtversion_1.1 from the repository.
 
-Required packages: https://pypi.org/project/deface/
-
-Install:  ```-m pip install deface```
-
-Required package: ttkbootstrap
-
-Install: ```-m pip install ttkbootstrap```
-
-Packages used:
-deface, tkinter, subprocess, threading, ttkbootstrap (for theme and UI elements)
-
-Installation video for python, deface, and ttkbootstrap:
+Old instruction video:
+You can still follow this to install Python and Deface on your system.
 https://youtu.be/iLCpJ5LhSTU
 
 
@@ -38,8 +30,4 @@ This UI tool helps give the input and output arguments for the deface function w
 
 
 ## USAGE: 
-
-Download the file as a .zip and extract to any directory. Run the tkinterversion_video_anonymize.exe file to use the program. Again, this requires the ttkbootstrap and deface packages to be installed prior.
-
-## Alternate usage: 
 Download the file as a .zip and extract to any directory. Run the **Video_Anonymize_pyqtversion_1.1** file. This requires the deface package and the PyQt6 package.
