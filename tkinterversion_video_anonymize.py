@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, Canvas
-import subprocess
 import os
 import threading
 import ttkbootstrap as ttk
