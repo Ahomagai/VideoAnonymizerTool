@@ -1,6 +1,8 @@
 ## New UI Version of VidAnon Tool
-Instead of using the .exe, you can instead install the PyQt6 package in Python using ```pip install PyQt6``` from your terminal. <br>
+You can install the PyQt6 package in Python using ```pip install PyQt6``` from your terminal. <br>
 And then install the deface package using ```-m pip install deface``` (this can be skipped if you already have deface installed).
+
+See the instruction video below for installing Python and Deface.
 
 Then you only have to run the **Video_Anonymize_pyqtversion_1.1** file from the .zip to get started with the program.
 
