@@ -2,6 +2,13 @@
 You can install the PyQt6 package in Python using ```pip install PyQt6``` from your terminal. <br>
 And then install the deface package using ```-m pip install deface``` (this can be skipped if you already have deface installed).
 
+## What does it do?
+
+VideoAnonymizerTool uses your local machine to blur and anonymize faces in videos. This is used for research to ensure anonymity of participants in recorded videos. 
+
+![Demo of VidAnonymizer](https://github.com/Ahomagai/VideoAnonymizerTool/blob/main/Vid_Anon_Demo.jpg)
+
+## Installation
 See the instruction video below for installing Python and Deface.
 
 Then you only have to run the **Video_Anonymize_pyqtversion_1.1** file from the .zip to get started with the program.
@@ -11,6 +18,14 @@ Required packages: **Deface** (https://pypi.org/project/deface/), **PyQt6** (htt
 
 
 Currently working on an exe and deployment version of this similar to the TKinter version but for now running the .py file should work
+
+## Current UI
+How to use
+- Run **Video_Anonymize_pyqtversion_1.1** after installation of required packages
+- Select file(s) for anonymization
+- Select output directory to store selected file(s)
+- Adjust threshold and mask parameters as necessary
+- Select: Run Deface on All Files
 
 ![Screenshot of new UI.](https://github.com/Ahomagai/VideoAnonymizerTool/blob/main/UserInterface.png)
 
